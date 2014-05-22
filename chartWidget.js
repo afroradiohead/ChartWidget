@@ -21,14 +21,15 @@ function initializeChartWidget($) {
 			});
 		},
 		_generateChart : function($chart, chartType, data, options) {
-			var chart = null;
-			if(chartType == "column")
-				chart = new google.visualization.ColumnChart($chart[0]);
-			else
-				chart = new google.visualization.PieChart($chart[0]);
+			var chartMethod = chartWidget._capitalizeFirstLetter(chartType)+"Chart";
 
-			chart.draw(data, options);	
-			return chart;		
+			try {
+				chart = new google.visualization[chartMethod]($chart[0]);
+				chart.draw(data, options);	
+				return chart;	
+			} catch (error) {
+				
+			}	
 		},
 		_tableToArray : function ($table) {
 			var dataRows = [];
@@ -45,15 +46,18 @@ function initializeChartWidget($) {
 
 			return dataRows;
 		},
-		_parsePotentialInteger : function(value){
-			if($.isNumeric(value))
-				value = parseInt(value);
-			return value;				
+		_parsePotentialInteger : function(string){
+			if($.isNumeric(string))
+				string = parseInt(string);
+			return string;				
 		},
 		_generateOptionsFromTable : function($table) {
 			return {
 				title: $table.children("caption").text()
 			};
+		},
+		_capitalizeFirstLetter : function(string) {
+			return string.charAt(0).toUpperCase() + string.slice(1);
 		}
 	};
 
