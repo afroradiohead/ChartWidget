@@ -3,24 +3,32 @@ function initializeChartWidget($) {
 	var chartWidget = 
 	{
 		initalize : function() {
-			chartWidget._intializePieCharts($("table.pie"));
+			chartWidget._intializeCharts($("table"));
 		},
-		_intializePieCharts : function($tables) {
-			$tables.each(function(){
+		_intializeCharts : function($tables) {
+			$tables.filter("[chart]").each(function(){
+				var $chart  = $("<div/>");
 				var $table = $(this);
-				var $pieChart  = $("<div/>");
-				var array = chartWidget._tableToArray($table);
-				
-				var options = {
-					title: chartWidget._getTableCaption($table),
-				};
+				var chartType = $table.attr("chart");
+				var data = google.visualization.arrayToDataTable(chartWidget._tableToArray($table));				
+				var options = chartWidget._generateOptionsFromTable($table);
 
-				var chart = new google.visualization.PieChart($pieChart[0]);
-				chart.draw(google.visualization.arrayToDataTable(array), options);
+				chartWidget._generateChart($chart, chartType, data, options);
 
+				//remove table and show chart
 				$table.hide();
-				$table.after($pieChart);
+				$table.after($chart);
 			});
+		},
+		_generateChart : function($chart, chartType, data, options) {
+			var chart = null;
+			if(chartType == "column")
+				chart = new google.visualization.ColumnChart($chart[0]);
+			else
+				chart = new google.visualization.PieChart($chart[0]);
+
+			chart.draw(data, options);	
+			return chart;		
 		},
 		_tableToArray : function ($table) {
 			var dataRows = [];
@@ -42,8 +50,10 @@ function initializeChartWidget($) {
 				value = parseInt(value);
 			return value;				
 		},
-		_getTableCaption : function($table){
-			return $table.children("caption").text();
+		_generateOptionsFromTable : function($table) {
+			return {
+				title: $table.children("caption").text()
+			};
 		}
 	};
 
