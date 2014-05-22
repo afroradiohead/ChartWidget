@@ -28,7 +28,7 @@ function initializeChartWidget($) {
 				chart.draw(data, options);	
 				return chart;	
 			} catch (error) {
-				
+				//throw error - cannot create a chart with the table's attribute
 			}	
 		},
 		_tableToArray : function ($table) {
