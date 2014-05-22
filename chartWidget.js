@@ -5,28 +5,27 @@ function initializeChartWidget($) {
 		initalize : function() {
 			chartWidget._intializePieCharts($("table.pie"));
 		},
-		_intializePieCharts : function($pieTables) {
-			$pieTables.each(function(){
-				var $pieTable = $(this);
+		_intializePieCharts : function($tables) {
+			$tables.each(function(){
+				var $table = $(this);
 				var $pieChart  = $("<div/>");
-				var pieChartData = chartWidget._generatePieChartData($pieTable);
-				var dataTable = google.visualization.arrayToDataTable(pieChartData);
+				var array = chartWidget._tableToArray($table);
 				
 				var options = {
-					title: chartWidget._getTableCaption($pieTable),
+					title: chartWidget._getTableCaption($table),
 				};
 
 				var chart = new google.visualization.PieChart($pieChart[0]);
-				chart.draw(google.visualization.arrayToDataTable(pieChartData), options);
+				chart.draw(google.visualization.arrayToDataTable(array), options);
 
-				$pieTable.hide();
-				$pieTable.after($pieChart);
+				$table.hide();
+				$table.after($pieChart);
 			});
 		},
-		_generatePieChartData : function($pieTable) {
+		_tableToArray : function ($table) {
 			var dataRows = [];
 
-			$pieTable.find("tr").each(function(){
+			$table.find("tr").each(function(){
 				var dataCells = [];
 
 				$(this).children("td,th").each(function(){
@@ -36,7 +35,7 @@ function initializeChartWidget($) {
 				dataRows.push(dataCells);
 			});
 
-			return dataRows;		
+			return dataRows;
 		},
 		_parsePotentialInteger : function(value){
 			if($.isNumeric(value))
@@ -52,6 +51,6 @@ function initializeChartWidget($) {
 }
 
 google.load("visualization", "1", {packages:["corechart"]});
-google.setOnLoadCallback(function(){
+google.setOnLoadCallback(function() {
 	jQuery(document).ready(initializeChartWidget);
 });
