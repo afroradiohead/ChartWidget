@@ -32,3 +32,5 @@ Simple jQuery Chart Widget with Google Charts
 	</tbody>  
 </table> 
 ```
+##Result
+![alt text](https://github.com/afroradiohead/ChartWidget/raw/master/piechart.png "Pie Chart")
