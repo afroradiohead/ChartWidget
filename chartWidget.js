@@ -3,7 +3,6 @@ function initializeChartWidget($) {
 	var chartWidget = 
 	{
 		chartTypes : ['pie', 'bar', 'column', 'histogram', 'donut'],
-		chartTypeIsDonut : false,
 		donutHoleRadius : .5,
 		initalize : function() {
 			chartWidget._intializeCharts($("table.chart"));
@@ -86,12 +85,15 @@ function initializeChartWidget($) {
 			}
 		},
 		_generateOptionsFromTable : function($table) {
+			var isDonut = $table.hasClass("donut");
+			
 			return {
 				title: $table.children("caption").text(),
 				legend: {
 					position : "bottom"
 				},
-				pieHole : chartWidget.chartTypeIsDonut ? chartWidget.donutHoleRadius : 0
+				pieHole : isDonut ? chartWidget.donutHoleRadius : 0,
+				// colors: ['#00205c', '#ee7624', '#', '#f3b49f', '#f6c7b6']
 			};
 		},
 		_parsePotentialInteger : function(string){
