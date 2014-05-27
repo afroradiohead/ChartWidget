@@ -2,7 +2,7 @@
 function initializeChartWidget($) {
 	var chartWidget = 
 	{
-		chartTypes : ['pie'],
+		chartTypes : ['pie', 'bar'],
 		initalize : function() {
 			chartWidget._intializeCharts($("table.chart"));
 		},
@@ -98,7 +98,7 @@ function initializeChartWidget($) {
 
 		resizeTimeoutId = setTimeout(function(){
 			chartWidget.initalize();
-		},50);
+		},20);
 	});
 
 	chartWidget.initalize();
