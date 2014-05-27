@@ -19,7 +19,6 @@ Simple jQuery Chart Widget with Google Charts
 
 ##Examples
 ```
-
 <table class='chart donut'>
 	<caption>Donut Chart</caption>
 	<thead>
