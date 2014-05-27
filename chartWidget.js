@@ -6,23 +6,35 @@ function initializeChartWidget($) {
 		initalize : function() {
 			chartWidget._intializeCharts($("table.chart"));
 		},
-		reDrawCharts:function(){
-
-		},
 		_intializeCharts : function($tables) {
 			$tables.each(function(){
-				var $chart  = $("<div style='width:100%; height:600px' />");
 				var $table = $(this);
+				var $chart = chartWidget._convertTableToChart($table);
 				var chartType = chartWidget._getChartTypeOfTable($table);
 				var data = google.visualization.arrayToDataTable(chartWidget._tableToArray($table));				
 				var options = chartWidget._generateOptionsFromTable($table);
 
 				//remove table and show chart
-				$table.hide();
-				$table.after($chart);
+
 
 				chartWidget._generateChart($chart, chartType, data, options);
 			});
+		},
+		_convertTableToChart : function($table){
+			var $chart = $table.data("$chart");
+
+			if($chart == null){
+				$chart = $("<div style='width:100%; height:600px' />");
+
+				//remove table and show chart
+				$table.hide();
+				$table.after($chart);
+
+				//save chart to table
+				$table.data("$chart", $chart);
+			}
+
+			return $chart;
 		},
 		_generateChart : function($chart, chartType, data, options) {
 			var chartMethod = chartWidget._capitalizeFirstLetter(chartType)+"Chart";
@@ -78,10 +90,18 @@ function initializeChartWidget($) {
 		}
 	};
 
-	chartWidget.initalize();
+	//initialization
+	var resizeTimeoutId;
+	
 	$(window).resize(function(){
+		clearTimeout(resizeTimeoutId);
 
+		resizeTimeoutId = setTimeout(function(){
+			chartWidget.initalize();
+		},50);
 	});
+
+	chartWidget.initalize();
 }
 
 google.load("visualization", "1", {packages:["corechart"]});
