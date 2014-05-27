@@ -11,7 +11,11 @@ Simple jQuery Chart Widget with Google Charts
     <script type="text/javascript" src="chartWidget.js"></script>
 ```
 ##Avaiable Classes
-chart.pie, chart.donut, chart.column, chart.bar, chart.histogram
+<table class="chart pie"></table>
+<table class="chart donut"></table>
+<table class="chart column"></table>
+<table class="chart bar"></table>
+<table class="chart histogram"></table>
 
 ##Examples
 ```
