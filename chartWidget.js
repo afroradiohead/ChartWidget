@@ -2,7 +2,7 @@
 function initializeChartWidget($) {
 	var chartWidget = 
 	{
-		chartTypes : ['pie', 'bar'],
+		chartTypes : ['pie', 'bar', 'column'],
 		initalize : function() {
 			chartWidget._intializeCharts($("table.chart"));
 		},
