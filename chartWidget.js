@@ -2,23 +2,26 @@
 function initializeChartWidget($) {
 	var chartWidget = 
 	{
-		chartTypes : ['pie'], 
+		chartTypes : ['pie'],
 		initalize : function() {
 			chartWidget._intializeCharts($("table.chart"));
 		},
+		reDrawCharts:function(){
+
+		},
 		_intializeCharts : function($tables) {
 			$tables.each(function(){
-				var $chart  = $("<div/>");
+				var $chart  = $("<div style='width:100%; height:600px' />");
 				var $table = $(this);
 				var chartType = chartWidget._getChartTypeOfTable($table);
 				var data = google.visualization.arrayToDataTable(chartWidget._tableToArray($table));				
 				var options = chartWidget._generateOptionsFromTable($table);
 
-				chartWidget._generateChart($chart, chartType, data, options);
-
 				//remove table and show chart
 				$table.hide();
 				$table.after($chart);
+
+				chartWidget._generateChart($chart, chartType, data, options);
 			});
 		},
 		_generateChart : function($chart, chartType, data, options) {
@@ -54,7 +57,6 @@ function initializeChartWidget($) {
 
 				if($table.hasClass(chartType))
 					return chartType
-				
 			}
 		},
 		_generateOptionsFromTable : function($table) {
@@ -62,7 +64,7 @@ function initializeChartWidget($) {
 				title: $table.children("caption").text(),
 				legend: {
 					position : "bottom"
-				}				
+				}
 			};
 		},
 		_parsePotentialInteger : function(string){
@@ -77,6 +79,9 @@ function initializeChartWidget($) {
 	};
 
 	chartWidget.initalize();
+	$(window).resize(function(){
+
+	});
 }
 
 google.load("visualization", "1", {packages:["corechart"]});
