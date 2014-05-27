@@ -20,9 +20,13 @@ function initializeChartWidget($) {
 		},
 		_convertTableToChart : function($table){
 			var $chart = $table.data("$chart");
-			
+			var width = $table[0].style.width != "" ? $table[0].style.width : '100%';
+			var height = $table[0].style.height != "" ? $table[0].style.height : '450px';	
+
+
 			if($chart == null){
-				$chart = $("<div style='width:auto; height:450px' />");
+				$chart = $("<div style='width:"+width+"; height:"+height+"' />");
+				$chart.addClass($table.attr("class"));
 
 				//remove table and show chart
 				$table.hide();
