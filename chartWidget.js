@@ -29,7 +29,8 @@ function initializeChartWidget($) {
 				chart.draw(data, options);	
 				return chart;	
 			} catch (error) {
-				//throw error - cannot create a chart with the table's attribute
+				var chartTypeText = chartWidget.chartTypes.join(" or ");
+				$chart.html("no valid chart type was defined. Please add (" + chartTypeText + ") as a class");
 			}	
 		},
 		_tableToArray : function ($table) {
