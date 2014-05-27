@@ -2,7 +2,7 @@
 function initializeChartWidget($) {
 	var chartWidget = 
 	{
-		chartTypes : ['pie', 'bar', 'column'],
+		chartTypes : ['pie', 'bar', 'column', 'histogram'],
 		initalize : function() {
 			chartWidget._intializeCharts($("table.chart"));
 		},
@@ -13,9 +13,6 @@ function initializeChartWidget($) {
 				var chartType = chartWidget._getChartTypeOfTable($table);
 				var data = google.visualization.arrayToDataTable(chartWidget._tableToArray($table));				
 				var options = chartWidget._generateOptionsFromTable($table);
-
-				//remove table and show chart
-
 
 				chartWidget._generateChart($chart, chartType, data, options);
 			});
@@ -37,7 +34,19 @@ function initializeChartWidget($) {
 			return $chart;
 		},
 		_generateChart : function($chart, chartType, data, options) {
-			var chartMethod = chartWidget._capitalizeFirstLetter(chartType)+"Chart";
+			var chartMethod = null;
+
+			//create chartMethod
+			switch(chartType) {
+				case "histogram" :
+					chartMethod = chartWidget._capitalizeFirstLetter(chartType);
+					break;
+				default : 
+					chartMethod = chartWidget._capitalizeFirstLetter(chartType)+"Chart";
+					break;
+			}
+
+			console.log(chartMethod);
 
 			try {
 				chart = new google.visualization[chartMethod]($chart[0]);
@@ -81,7 +90,7 @@ function initializeChartWidget($) {
 		},
 		_parsePotentialInteger : function(string){
 			if($.isNumeric(string))
-				string = parseInt(string);
+				string = parseFloat(string);
 			return string;				
 		},
 		_capitalizeFirstLetter : function(string) {
