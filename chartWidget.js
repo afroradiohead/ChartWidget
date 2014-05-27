@@ -2,7 +2,9 @@
 function initializeChartWidget($) {
 	var chartWidget = 
 	{
-		chartTypes : ['pie', 'bar', 'column', 'histogram'],
+		chartTypes : ['pie', 'bar', 'column', 'histogram', 'donut'],
+		chartTypeIsDonut : false,
+		donutHoleRadius : .5,
 		initalize : function() {
 			chartWidget._intializeCharts($("table.chart"));
 		},
@@ -46,8 +48,6 @@ function initializeChartWidget($) {
 					break;
 			}
 
-			console.log(chartMethod);
-
 			try {
 				chart = new google.visualization[chartMethod]($chart[0]);
 				chart.draw(data, options);	
@@ -63,7 +63,7 @@ function initializeChartWidget($) {
 			$table.find("tr").each(function(){
 				var dataCells = [];
 
-				$(this).children("td,th").each(function(){
+				$(this).children("td, th").each(function(){
 					dataCells.push(chartWidget._parsePotentialInteger($(this).text()));
 				});
 					
@@ -76,8 +76,13 @@ function initializeChartWidget($) {
 			for(i in chartWidget.chartTypes){
 				var chartType = chartWidget.chartTypes[i];
 
-				if($table.hasClass(chartType))
-					return chartType
+				if(chartType == "donut"){
+					chartWidget.chartTypeIsDonut = true;
+					return "pie";
+				}
+				else if($table.hasClass(chartType)){
+					return chartType;
+				}
 			}
 		},
 		_generateOptionsFromTable : function($table) {
@@ -85,7 +90,8 @@ function initializeChartWidget($) {
 				title: $table.children("caption").text(),
 				legend: {
 					position : "bottom"
-				}
+				},
+				pieHole : chartWidget.chartTypeIsDonut ? chartWidget.donutHoleRadius : 0
 			};
 		},
 		_parsePotentialInteger : function(string){
