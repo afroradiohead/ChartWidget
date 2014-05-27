@@ -20,9 +20,9 @@ function initializeChartWidget($) {
 		},
 		_convertTableToChart : function($table){
 			var $chart = $table.data("$chart");
-
+			
 			if($chart == null){
-				$chart = $("<div style='width:100%; height:600px' />");
+				$chart = $("<div style='width:auto; height:450px' />");
 
 				//remove table and show chart
 				$table.hide();
@@ -86,14 +86,14 @@ function initializeChartWidget($) {
 		},
 		_generateOptionsFromTable : function($table) {
 			var isDonut = $table.hasClass("donut");
-			
+
 			return {
 				title: $table.children("caption").text(),
 				legend: {
 					position : "bottom"
 				},
 				pieHole : isDonut ? chartWidget.donutHoleRadius : 0,
-				// colors: ['#00205c', '#ee7624', '#', '#f3b49f', '#f6c7b6']
+				colors: ['#00205c', '#ee7624', '#e1d1a7', '#5b8ab5', '#b7ce97', '#968c83']
 			};
 		},
 		_parsePotentialInteger : function(string){
