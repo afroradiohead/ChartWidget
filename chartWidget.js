@@ -2,14 +2,15 @@
 function initializeChartWidget($) {
 	var chartWidget = 
 	{
+		chartTypes : ['pie'], 
 		initalize : function() {
-			chartWidget._intializeCharts($("table"));
+			chartWidget._intializeCharts($("table.chart"));
 		},
 		_intializeCharts : function($tables) {
-			$tables.filter("[chart]").each(function(){
+			$tables.each(function(){
 				var $chart  = $("<div/>");
 				var $table = $(this);
-				var chartType = $table.attr("chart");
+				var chartType = chartWidget._getChartTypeOfTable($table);
 				var data = google.visualization.arrayToDataTable(chartWidget._tableToArray($table));				
 				var options = chartWidget._generateOptionsFromTable($table);
 
@@ -46,18 +47,28 @@ function initializeChartWidget($) {
 
 			return dataRows;
 		},
-		_parsePotentialInteger : function(string){
-			if($.isNumeric(string))
-				string = parseInt(string);
-			return string;				
+		_getChartTypeOfTable : function($table) {
+			for(i in chartWidget.chartTypes){
+				var chartType = chartWidget.chartTypes[i];
+
+				if($table.hasClass(chartType))
+					return chartType
+				
+			}
 		},
 		_generateOptionsFromTable : function($table) {
 			return {
 				title: $table.children("caption").text()
 			};
 		},
+		_parsePotentialInteger : function(string){
+			if($.isNumeric(string))
+				string = parseInt(string);
+			return string;				
+		},
 		_capitalizeFirstLetter : function(string) {
-			return string.charAt(0).toUpperCase() + string.slice(1);
+			if(string != null)
+				return string.charAt(0).toUpperCase() + string.slice(1);
 		}
 	};
 
