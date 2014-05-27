@@ -59,7 +59,10 @@ function initializeChartWidget($) {
 		},
 		_generateOptionsFromTable : function($table) {
 			return {
-				title: $table.children("caption").text()
+				title: $table.children("caption").text(),
+				legend: {
+					position : "bottom"
+				}				
 			};
 		},
 		_parsePotentialInteger : function(string){
